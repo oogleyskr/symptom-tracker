@@ -88,5 +88,8 @@ dependencies {
     // Gson
     implementation(libs.gson)
 
+    // Pager (for onboarding)
+    implementation(libs.androidx.foundation)
+
     debugImplementation(libs.androidx.ui.tooling)
 }

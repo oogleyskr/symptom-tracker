@@ -14,6 +14,7 @@ vico = "2.0.0-alpha.29"
 billing = "7.1.1"
 coroutines = "1.9.0"
 gson = "2.11.0"
+pager = "1.7.8"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,6 +39,7 @@ vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", ve
 billing = { group = "com.android.billingclient", name = "billing-ktx", version.ref = "billing" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+androidx-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "pager" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
