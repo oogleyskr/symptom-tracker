@@ -8,16 +8,20 @@ import android.app.NotificationChannel
 import android.app.PendingIntent
 import androidx.core.app.NotificationCompat
 import com.symptomtracker.MainActivity
+import com.symptomtracker.data.db.AppDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MedicationReminderReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val medicationName = intent.getStringExtra(EXTRA_MED_NAME) ?: return
         val dose = intent.getStringExtra(EXTRA_DOSE) ?: ""
+        val reminderId = intent.getLongExtra(AlarmScheduler.EXTRA_REMINDER_ID, -1L)
 
         val notificationManager = context.getSystemService(NotificationManager::class.java)
 
-        // Create channel
         val channel = NotificationChannel(
             CHANNEL_ID,
             "Medication Reminders",
@@ -25,7 +29,6 @@ class MedicationReminderReceiver : BroadcastReceiver() {
         ).apply { description = "Reminders to take your medications" }
         notificationManager.createNotificationChannel(channel)
 
-        // Open app intent
         val openIntent = PendingIntent.getActivity(
             context, 0,
             Intent(context, MainActivity::class.java),
@@ -42,6 +45,23 @@ class MedicationReminderReceiver : BroadcastReceiver() {
             .build()
 
         notificationManager.notify(medicationName.hashCode(), notification)
+
+        // Reschedule for tomorrow (daily repeating)
+        if (reminderId > 0) {
+            val pendingResult = goAsync()
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val db = AppDatabase.getInstance(context)
+                    val reminder = db.medicationReminderDao().getAll()
+                        .find { it.id == reminderId && it.enabled }
+                    if (reminder != null) {
+                        AlarmScheduler(context).schedule(reminder)
+                    }
+                } finally {
+                    pendingResult.finish()
+                }
+            }
+        }
     }
 
     companion object {

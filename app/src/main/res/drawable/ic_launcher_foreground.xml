@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Background circle -->
+    <path
+        android:fillColor="#6B3FA0"
+        android:pathData="M54,54m-40,0a40,40 0,1 1,80 0a40,40 0,1 1,-80 0" />
+
+    <!-- Heart/pulse icon -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,38c-2.5,-5 -8,-8 -13,-8c-7,0 -12,5 -12,12c0,12 14,20 25,28c11,-8 25,-16 25,-28c0,-7 -5,-12 -12,-12c-5,0 -10.5,3 -13,8z" />
+
+    <!-- Pulse line -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#6B3FA0"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M34,54L42,54L46,44L50,62L54,48L58,58L62,54L74,54" />
+</vector>

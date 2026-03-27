@@ -1,6 +1,8 @@
 package com.symptomtracker.data.db
 
+import android.content.Context
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverter
 import androidx.room.TypeConverters
@@ -33,4 +35,18 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun logEntryDao(): LogEntryDao
     abstract fun sideEffectDao(): SideEffectDao
     abstract fun medicationReminderDao(): MedicationReminderDao
+
+    companion object {
+        @Volatile
+        private var INSTANCE: AppDatabase? = null
+
+        fun getInstance(context: Context): AppDatabase =
+            INSTANCE ?: synchronized(this) {
+                INSTANCE ?: Room.databaseBuilder(
+                    context.applicationContext,
+                    AppDatabase::class.java,
+                    "symptom_tracker.db",
+                ).build().also { INSTANCE = it }
+            }
+    }
 }

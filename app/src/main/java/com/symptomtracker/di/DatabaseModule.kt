@@ -3,6 +3,7 @@ package com.symptomtracker.di
 import android.content.Context
 import androidx.room.Room
 import com.symptomtracker.data.db.AppDatabase
+import com.symptomtracker.data.notification.AlarmScheduler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,11 +18,7 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): AppDatabase =
-        Room.databaseBuilder(
-            context,
-            AppDatabase::class.java,
-            "symptom_tracker.db"
-        ).build()
+        AppDatabase.getInstance(context)
 
     @Provides
     fun provideSymptomDao(db: AppDatabase) = db.symptomDao()
@@ -37,4 +34,9 @@ object DatabaseModule {
 
     @Provides
     fun provideMedicationReminderDao(db: AppDatabase) = db.medicationReminderDao()
+
+    @Provides
+    @Singleton
+    fun provideAlarmScheduler(@ApplicationContext context: Context): AlarmScheduler =
+        AlarmScheduler(context)
 }
